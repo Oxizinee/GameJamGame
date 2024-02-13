@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -31,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
     public float GravityScale = 9.81f;
     public float JumpHeight = 7;
     public float TeleportCooldown = 3f;
+
+    private Material _deafultMaterial;
+    public Material FlashMaterial;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Bullet")
@@ -40,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Start()
     {
+        _deafultMaterial = GetComponent<SpriteRenderer>().sharedMaterial;
         _impulseSource = GetComponent<CinemachineImpulseSource>();
         _hearts = new List<GameObject>();
 
@@ -118,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && _teleportAvaiable)
         {
+                StartCoroutine(FlashPlayer());
             transform.position = _mousePosition;
             _teleportAvaiable = false;
         }
@@ -132,5 +138,18 @@ public class PlayerMovement : MonoBehaviour
                 _teleportAvaiable = true;
             }
         }
+    }
+
+    private IEnumerator FlashPlayer()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            GetComponent<SpriteRenderer>().sharedMaterial = FlashMaterial;
+            yield return new WaitForSeconds(0.125f);
+            GetComponent<SpriteRenderer>().sharedMaterial = _deafultMaterial;
+            yield return new WaitForSeconds(0.125f);
+        }
+
+        yield return null;
     }
 }

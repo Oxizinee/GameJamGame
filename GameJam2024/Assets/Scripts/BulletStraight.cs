@@ -19,6 +19,7 @@ public class BulletStraight : MonoBehaviour
 
     private float timer = 0;
     private GameObject _player;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -31,18 +32,16 @@ public class BulletStraight : MonoBehaviour
         if (bulletType == BulletType.FollowPlayer)
         {
             _player = GameObject.FindGameObjectWithTag("Player");
-            //Vector2 direction = _player.transform.position - transform.position;
-            //float rot = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
-            //transform.rotation = Quaternion.Euler(0, 0, rot + 90);
             MoveDirection = _player.transform.position - transform.position;
         }
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.localPosition += MoveDirection.normalized * MovementSpeed;
-
+         transform.localPosition += MoveDirection.normalized * MovementSpeed;
 
         if (Physics2D.OverlapCircle(transform.position, transform.localScale.x - 0.2f, floorMask,0,1))
         {
