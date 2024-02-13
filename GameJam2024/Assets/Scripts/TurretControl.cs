@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public enum TurretType
 {
@@ -19,6 +20,8 @@ public class TurretControl : MonoBehaviour
 
     public float Timer = 0;
     public float Cooldown = 3;
+
+    public float BulletSpeed = 5;
 
     [SerializeField]private GameObject _player;
     private void OnTriggerStay2D(Collider2D collision)
@@ -57,6 +60,7 @@ public class TurretControl : MonoBehaviour
             foreach (Transform t in BulletSpawn)
             {
                 Instantiate(BulletPrefab, t.transform.position, t.rotation);
+                BulletPrefab.GetComponent<BulletStraight>().MovementSpeed = BulletSpeed;
             }
             
             Timer = 0;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     private CinemachineImpulseSource _impulseSource;
 
     public float Lives = 3;
+    public GameObject[] Hearts;
+    private List<GameObject> _hearts;
 
     public float MovementSpeed = 6;
     public float GravityScale = 9.81f;
@@ -32,13 +35,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            Lives--;
-            _impulseSource.GenerateImpulse();
+            LoseALife();
         }
     }
     void Start()
     {
         _impulseSource = GetComponent<CinemachineImpulseSource>();
+        _hearts = new List<GameObject>();
+
+        for (int i = 0; i < Hearts.Length; i++)
+        {
+            _hearts.Add(Hearts[i]);
+        }
     }
 
     // Update is called once per frame
@@ -52,6 +60,11 @@ public class PlayerMovement : MonoBehaviour
         CheckBoarders();
         Movement();
 
+        if (Lives == 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
     }
 
     private void CheckBoarders()
@@ -61,15 +74,21 @@ public class PlayerMovement : MonoBehaviour
         if (Camera.main.WorldToScreenPoint(transform.position).x > Screen.width - BoarderRight.transform.localScale.x)
         {
             transform.position = (new Vector3(transform.position.x - boarderScale, transform.position.y, 0));
-            _impulseSource.GenerateImpulse();
-            Lives--;
+            LoseALife();
         }
         else if (Camera.main.WorldToScreenPoint(transform.position).x < 0 + BoarderLeft.transform.localScale.x)
         {
             transform.position = (new Vector3(transform.position.x + boarderScale, transform.position.y, 0));
-            _impulseSource.GenerateImpulse();
-            Lives--;
+            LoseALife();
         }
+    }
+
+    private void LoseALife()
+    {
+        _impulseSource.GenerateImpulse();
+        _hearts[_hearts.Count - 1].gameObject.SetActive(false);
+        _hearts.Remove(_hearts[_hearts.Count - 1]);
+        Lives--;
     }
 
     private void Movement()

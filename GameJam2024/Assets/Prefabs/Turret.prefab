@@ -175,6 +175,7 @@ MonoBehaviour:
   LookAt: {fileID: 0}
   Timer: 0
   Cooldown: 3
+  BulletSpeed: 0.08
   _player: {fileID: 0}
 --- !u!1 &2484922764020467083
 GameObject:
