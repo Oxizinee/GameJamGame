@@ -4,10 +4,18 @@ using System.Threading;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
+public enum FirePattern
+{
+    HallfCircle,
+    Spiral
+}
+
 public class Turretv2 : MonoBehaviour
 {
     // Start is called before the first frame update
+    public FirePattern firePattern = FirePattern.HallfCircle;
     public float statrtAngle = 90f, endAngle = 270f;
+    private float _spiralAngle = 0f;
 
     public GameObject BulletPrefab;
     public float BulletSpeed;
@@ -66,6 +74,22 @@ public class Turretv2 : MonoBehaviour
         Timer = 0;
     }
 
+    private void FireSpiral()
+    {
+        float bulDirectionX = transform.position.x + Mathf.Sin((_spiralAngle * Mathf.PI) / 180f);
+        float bulDirectionY = transform.position.y + Mathf.Cos((_spiralAngle * Mathf.PI) / 180f);
+
+        Vector3 bulMoveVector = new Vector3(bulDirectionX, bulDirectionY, 0);
+        Vector2 bulDir = (bulMoveVector - transform.position).normalized;
+
+        Instantiate(BulletPrefab, transform.position, transform.rotation);
+        BulletPrefab.GetComponent<BulletStraight>().MoveDirection = bulDir;
+        BulletPrefab.GetComponent<BulletStraight>().MovementSpeed = BulletSpeed;
+
+        _spiralAngle += 10F;
+
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -73,7 +97,12 @@ public class Turretv2 : MonoBehaviour
 
         if (_player != null && Timer > CoolDown)
         {
+            if(firePattern == FirePattern.HallfCircle)
             FireBullets();
+            else if (firePattern == FirePattern.Spiral)
+            {
+                FireSpiral();
+            }
         }
     }
 }
