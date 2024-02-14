@@ -66,12 +66,9 @@ public class Turretv2 : MonoBehaviour
                 Vector3 bulMoveVector = new Vector3(bulDirectionX, bulDirectionY, 0);
                 Vector2 bulDir = (bulMoveVector - transform.position).normalized;
 
-                //if (Timer > CoolDown)
-                //{
                 GameObject bullet = Instantiate(BulletPrefab, transform.position, transform.rotation);
                 bullet.GetComponent<BulletStraight>().SetMoveDirection(bulDir);
                 bullet.GetComponent<BulletStraight>().SetMovementSpeed(BulletSpeed);
-                //   }
                 angle += angleStep;
             }
 
