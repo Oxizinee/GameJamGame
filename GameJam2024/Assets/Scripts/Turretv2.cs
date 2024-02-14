@@ -53,25 +53,30 @@ public class Turretv2 : MonoBehaviour
 
     private void FireBullets()
     {
-        float angleStep = (endAngle - statrtAngle) / BulletAmount;
-        float angle = statrtAngle;
-
-        for (int i = 0; i < BulletAmount; i++)
+        if (Timer > CoolDown)
         {
-            float bulDirectionX = transform.position.x + Mathf.Sin((angle * Mathf.PI) / 180f);
-            float bulDirectionY = transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180f);
+            float angleStep = (endAngle - statrtAngle) / BulletAmount;
+            float angle = statrtAngle;
 
-            Vector3 bulMoveVector = new Vector3(bulDirectionX, bulDirectionY, 0);
-            Vector2 bulDir = (bulMoveVector - transform.position).normalized;
+            for (int i = 0; i < BulletAmount; i++)
+            {
+                float bulDirectionX = transform.position.x + Mathf.Sin((angle * Mathf.PI) / 180f);
+                float bulDirectionY = transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180f);
 
-            Instantiate(BulletPrefab, transform.position, transform.rotation);
-            BulletPrefab.GetComponent<BulletStraight>().MoveDirection = bulDir;
-            BulletPrefab.GetComponent<BulletStraight>().MovementSpeed = BulletSpeed;
+                Vector3 bulMoveVector = new Vector3(bulDirectionX, bulDirectionY, 0);
+                Vector2 bulDir = (bulMoveVector - transform.position).normalized;
 
-            angle += angleStep;
+                //if (Timer > CoolDown)
+                //{
+                GameObject bullet = Instantiate(BulletPrefab, transform.position, transform.rotation);
+                bullet.GetComponent<BulletStraight>().SetMoveDirection(bulDir);
+                bullet.GetComponent<BulletStraight>().SetMovementSpeed(BulletSpeed);
+                //   }
+                angle += angleStep;
+            }
+
+            Timer = 0;
         }
-
-        Timer = 0;
     }
 
     private void FireSpiral()
@@ -82,12 +87,14 @@ public class Turretv2 : MonoBehaviour
         Vector3 bulMoveVector = new Vector3(bulDirectionX, bulDirectionY, 0);
         Vector2 bulDir = (bulMoveVector - transform.position).normalized;
 
-        Instantiate(BulletPrefab, transform.position, transform.rotation);
-        BulletPrefab.GetComponent<BulletStraight>().MoveDirection = bulDir;
-        BulletPrefab.GetComponent<BulletStraight>().MovementSpeed = BulletSpeed;
-
-        _spiralAngle += 10F;
-
+        if (Timer > CoolDown)
+        {
+            GameObject bullet = Instantiate(BulletPrefab, transform.position, transform.rotation);
+            bullet.GetComponent<BulletStraight>().SetMoveDirection(bulDir);
+            bullet.GetComponent<BulletStraight>().SetMovementSpeed(BulletSpeed);
+            _spiralAngle += 10F;
+            Timer = 0;
+        }
     }
 
     // Update is called once per frame
@@ -95,7 +102,7 @@ public class Turretv2 : MonoBehaviour
     {
         Timer += Time.deltaTime;
 
-        if (_player != null && Timer > CoolDown)
+        if (_player != null)
         {
             if(firePattern == FirePattern.HallfCircle)
             FireBullets();

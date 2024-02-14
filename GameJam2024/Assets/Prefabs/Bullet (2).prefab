@@ -183,7 +183,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletType: 0
-  MovementSpeed: 13.09
   MoveDirection: {x: 0, y: -1, z: 0}
   floorMask:
     serializedVersion: 2

@@ -15,6 +15,8 @@ public class TurretControl : MonoBehaviour
 
     public float BulletSpeed = 5;
 
+    public Vector2 BulletMoveDir;
+
     [SerializeField]private GameObject _player;
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -48,11 +50,19 @@ public class TurretControl : MonoBehaviour
         Timer += Time.deltaTime;
 
         if (_player != null && Timer > Cooldown)
-         {
+        {
             foreach (Transform t in BulletSpawn)
             {
-                Instantiate(BulletPrefab, t.transform.position, t.rotation);
-                BulletPrefab.GetComponent<BulletStraight>().MovementSpeed = BulletSpeed;
+                GameObject bulletInstance = Instantiate(BulletPrefab, t.transform.position, t.rotation);
+                if (bulletInstance.GetComponent<BulletStraight>().bulletType == BulletType.Normal)
+                {
+                    bulletInstance.GetComponent<BulletStraight>().SetMoveDirection(BulletMoveDir.normalized);
+                }
+                else if (bulletInstance.GetComponent<BulletStraight>().bulletType == BulletType.FollowPlayer)
+                {
+                    bulletInstance.GetComponent<BulletStraight>().SetMoveDirection((_player.transform.position - bulletInstance.transform.position).normalized);
+                }
+                bulletInstance.GetComponent<BulletStraight>().SetMovementSpeed(BulletSpeed);
             }
             
             Timer = 0;

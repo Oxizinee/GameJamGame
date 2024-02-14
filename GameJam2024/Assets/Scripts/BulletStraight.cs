@@ -13,12 +13,11 @@ public class BulletStraight : MonoBehaviour
 {
     // Start is called before the first frame update
     public BulletType bulletType = BulletType.Normal;
-    public float MovementSpeed = 0.1f;
-    public Vector3 MoveDirection = Vector3.down;
+    private float _movementSpeed;
+    private Vector3 _moveDirection;
     public LayerMask floorMask;
 
     private float timer = 0;
-    private GameObject _player;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -27,28 +26,32 @@ public class BulletStraight : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    void Start()
+    public void SetMoveDirection(Vector2 dir)
     {
-        if (bulletType == BulletType.FollowPlayer)
-        {
-            _player = GameObject.FindGameObjectWithTag("Player");
-            MoveDirection = _player.transform.position - transform.position;
-        }
+        _moveDirection = dir;
+    }
 
-
+    public void SetMovementSpeed(float speed)
+    {
+        _movementSpeed = speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-         transform.localPosition += MoveDirection.normalized * MovementSpeed;
+        transform.localPosition += _moveDirection * _movementSpeed;
 
-        if (Physics2D.OverlapCircle(transform.position, transform.localScale.x - 0.2f, floorMask,0,1))
+        if (Physics2D.OverlapCircle(transform.position, transform.localScale.x - 0.2f, floorMask, 0, 1))
         {
-           // Debug.Log("hit");
             Destroy(gameObject);
         }
 
+        DeleteOutOfScreen();
+
+    }
+
+    private void DeleteOutOfScreen()
+    {
         var pos = Camera.main.WorldToScreenPoint(transform.position);
 
 
@@ -63,6 +66,5 @@ public class BulletStraight : MonoBehaviour
                 timer = 0;
             }
         }
-
     }
 }
