@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void LoseALife()
+    public void LoseALife()
     {
         _impulseSource.GenerateImpulse();
         _hearts[_hearts.Count - 1].gameObject.SetActive(false);

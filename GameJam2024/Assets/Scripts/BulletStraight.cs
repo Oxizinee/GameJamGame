@@ -17,6 +17,7 @@ public class BulletStraight : MonoBehaviour
     private Vector3 _moveDirection;
     public LayerMask floorMask;
 
+    private float _angle = 0;
     private float timer = 0;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -40,6 +41,8 @@ public class BulletStraight : MonoBehaviour
     void Update()
     {
         transform.localPosition += _moveDirection * _movementSpeed;
+
+        transform.Rotate(Vector3.forward, (_angle + 5f));
 
         if (Physics2D.OverlapCircle(transform.position, transform.localScale.x - 0.2f, floorMask, 0, 1))
         {
