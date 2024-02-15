@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     private Vector2 _keyboardInput;
     private Vector2 _mousePosition;
+    private bool _previousMouseButton, _currentMouseButton;
     private float _velocity;
 
     public GameObject BoarderLeft;
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _isGrounded = false;
     [SerializeField] private LayerMask _floorMask;
+    [SerializeField] private LayerMask _wallMask;
     [SerializeField] private Transform _feet;
     [SerializeField] private float _floorHeight;
 
@@ -35,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Material _deafultMaterial;
     public Material FlashMaterial;
+
+    private Collider2D _collider;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Bullet")
@@ -45,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _deafultMaterial = GetComponent<SpriteRenderer>().sharedMaterial;
+        _collider = GetComponent<Collider2D>();
         _impulseSource = GetComponent<CinemachineImpulseSource>();
         _hearts = new List<GameObject>();
 
@@ -59,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _keyboardInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _currentMouseButton = Input.GetMouseButton(0);
 
         _velocity += Physics2D.gravity.y * GravityScale * Time.deltaTime;
 
@@ -69,6 +76,8 @@ public class PlayerMovement : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
+        _previousMouseButton = _currentMouseButton;
 
     }
 
@@ -110,6 +119,8 @@ public class PlayerMovement : MonoBehaviour
             _isGrounded = false;
         }
 
+        WallCollision();
+
         if (Input.GetKeyDown(KeyCode.W) && _isGrounded)
         {
             _velocity = Mathf.Sqrt(JumpHeight * -2 * (Physics2D.gravity.y * GravityScale));
@@ -119,12 +130,46 @@ public class PlayerMovement : MonoBehaviour
         transform.Translate(new Vector3(Vector3.right.x * _keyboardInput.x * MovementSpeed, _velocity, 0) * Time.deltaTime);
     }
 
+    private void WallCollision()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 0.3f, _wallMask, 0, 1);
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, 0.3f, _wallMask, 0, 1);
+
+        if (hit.collider != null)
+        {
+            Vector2 wall = hit.collider.bounds.ClosestPoint(transform.position);
+            transform.position = new Vector3(wall.x - 0.3f, transform.position.y, transform.position.z);
+        }
+
+        if (hitLeft.collider != null)
+        {
+            Vector2 wall = hitLeft.collider.bounds.ClosestPoint(transform.position);
+            transform.position = new Vector3(wall.x + 0.3f, transform.position.y, transform.position.z);
+        }
+    }
+
     private void Teleport()
     {
-        if (Input.GetMouseButtonDown(0) && _teleportAvaiable)
+        Vector2 teleportPos = Vector2.one;
+        bool positionSelected = false;
+        if (_currentMouseButton && _teleportAvaiable)
         {
-                StartCoroutine(FlashPlayer());
-            transform.position = _mousePosition;
+            StartCoroutine(FlashPlayer());
+        }
+
+        if (!_currentMouseButton && _previousMouseButton)
+        {
+            teleportPos = _mousePosition;
+            positionSelected = true;
+        }
+        else
+        {
+            positionSelected = false;
+        }
+
+        if (_teleportAvaiable && positionSelected)
+        {
+            transform.position = teleportPos;
             _teleportAvaiable = false;
         }
 

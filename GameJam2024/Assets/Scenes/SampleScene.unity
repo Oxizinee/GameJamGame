@@ -164,7 +164,7 @@ MonoBehaviour:
   - {fileID: 469600052232209681, guid: 202e5a9ee2e24f345a31c9b3bf73b740, type: 3}
   - {fileID: 469600052232209681, guid: b2fa60fad70f269429dd4dcc6c3d85f1, type: 3}
   - {fileID: 469600052232209681, guid: d7db801288859c7499949662c64a6c54, type: 3}
-  Cooldown: 10
+  Cooldown: 3
 --- !u!4 &53613068
 Transform:
   m_ObjectHideFlags: 0
@@ -174,7 +174,7 @@ Transform:
   m_GameObject: {fileID: 53613066}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 90.53, y: 18.03, z: -0.21727097}
+  m_LocalPosition: {x: 29.2, y: 2.3, z: -0.21727097}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 111344624}
   - component: {fileID: 111344626}
   - component: {fileID: 111344625}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -548,7 +548,7 @@ GameObject:
   - component: {fileID: 204315371}
   - component: {fileID: 204315370}
   m_Layer: 0
-  m_Name: Radius
+  m_Name: Spiral Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -686,7 +686,7 @@ GameObject:
   m_Component:
   - component: {fileID: 218957092}
   - component: {fileID: 218957093}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1310,7 +1310,7 @@ GameObject:
   - component: {fileID: 630242690}
   - component: {fileID: 630242689}
   - component: {fileID: 630242688}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1329,7 +1329,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2987,7 +2987,7 @@ GameObject:
   - component: {fileID: 1365878303}
   - component: {fileID: 1365878307}
   - component: {fileID: 1365878308}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3011,6 +3011,9 @@ MonoBehaviour:
   _floorMask:
     serializedVersion: 2
     m_Bits: 8
+  _wallMask:
+    serializedVersion: 2
+    m_Bits: 128
   _feet: {fileID: 111344624}
   _floorHeight: 0.6
   _teleportAvaiable: 1
@@ -3147,7 +3150,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 136
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4576,7 +4579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7243879273563450021, guid: 86b02e51188395c40b594c6e88e82c5e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4617,7 +4620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7045124519874801815, guid: 0707676ce2001e84bb0059e20366ed5c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7642515481388346574, guid: 0707676ce2001e84bb0059e20366ed5c, type: 3}
       propertyPath: m_LocalPosition.x
