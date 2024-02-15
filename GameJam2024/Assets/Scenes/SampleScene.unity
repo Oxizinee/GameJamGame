@@ -128,6 +128,58 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6083384777939326238, guid: 0707676ce2001e84bb0059e20366ed5c, type: 3}
   m_PrefabInstance: {fileID: 1911943237}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &53613066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 53613068}
+  - component: {fileID: 53613067}
+  m_Layer: 0
+  m_Name: DyeSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &53613067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53613066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b9c850ffdb09f342a337d1f02644d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Dyes:
+  - {fileID: 469600052232209681, guid: 02852873becdfe44093632b93a7c2578, type: 3}
+  - {fileID: 469600052232209681, guid: 277c8ca7dfb8f874594acc7f96eb8de5, type: 3}
+  - {fileID: 469600052232209681, guid: c111adad2879aff4ea0ca8db4fe4c4aa, type: 3}
+  - {fileID: 469600052232209681, guid: 202e5a9ee2e24f345a31c9b3bf73b740, type: 3}
+  - {fileID: 469600052232209681, guid: b2fa60fad70f269429dd4dcc6c3d85f1, type: 3}
+  - {fileID: 469600052232209681, guid: d7db801288859c7499949662c64a6c54, type: 3}
+  Cooldown: 10
+--- !u!4 &53613068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53613066}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 90.53, y: 18.03, z: -0.21727097}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &110950956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3919927176070474824, guid: 0707676ce2001e84bb0059e20366ed5c, type: 3}
@@ -4632,3 +4684,4 @@ SceneRoots:
   - {fileID: 1922800479}
   - {fileID: 2014444675}
   - {fileID: 851120104}
+  - {fileID: 53613068}
